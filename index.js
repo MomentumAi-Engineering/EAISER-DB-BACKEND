@@ -7,8 +7,20 @@ const authRoutes = require('./routes/auth');
 const app = express();
 connectDB();
 
-app.use(cors());
+// app.use(cors());
+// app.use(express.json());
+
+app.use(cors({
+  origin: ['https://www.eaiser.ai'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
+
+app.options('*', cors()); // 🔴 IMPORTANT for preflight
+
 app.use(express.json());
+
 
 app.use('/api/auth', authRoutes);
 
