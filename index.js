@@ -33,8 +33,10 @@ app.use(
   })
 );
 
-// Handle preflight requests
-app.options('*', cors());
+// Handle preflight requests behavior manually if needed, or let regex handle it.
+// The error 'Missing parameter name at index 1: *' suggests '*' string path is treated as a param.
+// Using regex /(.*)/ matches everything safely.
+app.options(/(.*)/, cors());
 
 app.use(express.json());
 
