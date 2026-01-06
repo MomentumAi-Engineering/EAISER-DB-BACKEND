@@ -26,8 +26,16 @@ exports.signup = async (req, res) => {
     let { email } = req.body;
 
     if (!fullName || !email || !password) {
-      console.log("❌ Missing fields:", { fullName, email: !!email, pw: !!password }); // DEBUG LOG
-      return res.status(400).json({ message: 'Missing required fields (fullName/name, email, password)' });
+      console.log("❌ Missing fields:", { fullName, email: !!email, pw: !!password });
+      return res.status(400).json({
+        message: 'Missing required fields',
+        received: req.body,
+        details: {
+          hasFullName: !!fullName,
+          hasEmail: !!email,
+          hasPassword: !!password
+        }
+      });
     }
 
     email = email.toLowerCase(); // Normalize email
