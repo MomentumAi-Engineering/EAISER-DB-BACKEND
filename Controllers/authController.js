@@ -18,10 +18,14 @@ const signToken = (user) => {
  */
 exports.signup = async (req, res) => {
   try {
-    const { fullName, email, password } = req.body;
+    const { fullName, password } = req.body;
+    let { email } = req.body;
+
     if (!fullName || !email || !password) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
+
+    email = email.toLowerCase(); // Normalize email
 
     const exists = await User.findOne({ email });
     if (exists) {
@@ -43,10 +47,14 @@ exports.signup = async (req, res) => {
  */
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { password } = req.body;
+    let { email } = req.body;
+
     if (!email || !password) {
       return res.status(400).json({ message: 'Missing email or password' });
     }
+
+    email = email.toLowerCase(); // Normalize email
 
     const user = await User.findOne({ email });
     if (!user || !(await user.comparePassword(password))) {
