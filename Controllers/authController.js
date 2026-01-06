@@ -18,12 +18,15 @@ const signToken = (user) => {
  */
 exports.signup = async (req, res) => {
   try {
+    console.log("👉 SIGNUP REQUEST BODY:", req.body); // DEBUG LOG
+
     // Robustness: Accept 'fullName' (preferred) or 'name' (legacy/fallback)
     const fullName = req.body.fullName || req.body.name;
     const { password } = req.body;
     let { email } = req.body;
 
     if (!fullName || !email || !password) {
+      console.log("❌ Missing fields:", { fullName, email: !!email, pw: !!password }); // DEBUG LOG
       return res.status(400).json({ message: 'Missing required fields (fullName/name, email, password)' });
     }
 
